@@ -1,0 +1,52 @@
+Sub find_each_stock_symbol()
+
+    'Create a for loop to look at stock data
+    For Each ws In Worksheets
+    
+        'Create a variable for name of worksheet, the year
+        Dim Year As String
+        
+        'Set value of Year
+        Year = ws.Name
+       
+        'Create a variable for non-empty rows, and set the value as count
+        LastRow = Format(ws.UsedRange.Rows.Count, "#,##0")
+
+        'Create a variable for non-empty columns, and set the value as count
+        LastColumn = Format(ws.UsedRange.Columns.Count, "#,##0")
+        
+        'Set the value of the opening price (in the worksheet, ignore stocks for now).
+        open_price = Format(Cells(2, 3).Value, "Currency")
+        
+        'Create a variable for the closing price (in the worksheet, ignore stocks for now).
+        close_price = Format(Cells(LastRow, 6).Value, "Currency")
+                
+        'Create a variable for total_volume
+        Dim total_volume As Long
+
+        'Set initial value of total_volume
+        total_volume = 0
+
+        'Create a for loop for every row of stock data
+        For i = 2 To LastRow
+               
+            'Add the value of total_volume in each row in increments
+            'total_volume = total_volume + Cells(i, 7).Value
+                       
+            
+        'End for loop for rows
+        Next i
+
+        'Create a message box displaying total_volume
+        'MsgBox ("Total stock volume is " & total_volume & ".")
+        
+        'Create a message box displaying row count
+        MsgBox ("There are " & LastRow & " rows for year " & Year & ", and the opening price is " & open_price & ", and the closing price is " & close_price & ".")
+
+    'End for loop for worksheets
+    Next ws
+
+End Sub
+
+
+    
