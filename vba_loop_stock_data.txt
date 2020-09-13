@@ -1,5 +1,14 @@
 Sub find_each_stock_symbol()
 
+    'Insert a new worksheet to summarize the stock data by ticker symbol
+    Sheets.Add.Name = "Summary_Stock_Data"
+
+    'Move Summary_Stock_Data before Sheet(1)
+    Worksheets("Summary_Stock_Data").Move Before:=Sheets(1)
+
+    'Set location of Summary_Stock_Data
+    Set summary_data = Worksheets("Summary_Stock_Data")
+
     'Create a for loop to look at stock data
     For Each ws In Worksheets
     
@@ -14,9 +23,15 @@ Sub find_each_stock_symbol()
 
         'Create a variable for non-empty columns, and set the value as count
         LastColumn = Format(ws.UsedRange.Columns.Count, "#,##0")
+
+        'Create a variable for opening price **of each worksheet**
+        Dim open_price As Long
         
         'Set the value of the opening price (in the worksheet, ignore stocks for now).
         open_price = Format(Cells(2, 3).Value, "Currency")
+
+        'Set the value of the closing price **of each worksheet**
+        Dim close_price As Long
         
         'Create a variable for the closing price (in the worksheet, ignore stocks for now).
         close_price = Format(Cells(LastRow, 6).Value, "Currency")
@@ -31,9 +46,8 @@ Sub find_each_stock_symbol()
         For i = 2 To LastRow
                
             'Add the value of total_volume in each row in increments
-            'total_volume = total_volume + Cells(i, 7).Value
-                       
-            
+            'total_volume = total_volume + Cells(i, 7).Value     
+     
         'End for loop for rows
         Next i
 
