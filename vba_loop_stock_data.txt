@@ -1,14 +1,14 @@
 Sub find_each_stock_symbol()
 
     'Insert a new worksheet to summarize the stock data by ticker symbol
-    Sheets.Add.Name = "Summary_Stock_Data"
+    'Sheets.Add.Name = "Summary_Stock_Data"
 
     'Move Summary_Stock_Data before Sheet(1)
-    Worksheets("Summary_Stock_Data").Move Before:=Sheets(1)
+    'Worksheets("Summary_Stock_Data").Move Before:=Sheets(1)
 
     'Set location of Summary_Stock_Data
-    Set summary_data = Worksheets("Summary_Stock_Data")
-
+    'Set summary_data = Worksheets("Summary_Stock_Data")
+        
     'Create a for loop to look at stock data
     For Each ws In Worksheets
     
@@ -17,36 +17,42 @@ Sub find_each_stock_symbol()
         
         'Set value of Year
         Year = ws.Name
-       
+                  
         'Create a variable for non-empty rows, and set the value as count
         LastRow = Format(ws.UsedRange.Rows.Count, "#,##0")
 
         'Create a variable for non-empty columns, and set the value as count
         LastColumn = Format(ws.UsedRange.Columns.Count, "#,##0")
-
+    
         'Create a variable for opening price **of each worksheet**
         Dim open_price As Long
         
         'Set the value of the opening price (in the worksheet, ignore stocks for now).
-        open_price = Format(Cells(2, 3).Value, "Currency")
+        open_price = ws.Cells(2, 3).Value
 
         'Set the value of the closing price **of each worksheet**
         Dim close_price As Long
         
         'Create a variable for the closing price (in the worksheet, ignore stocks for now).
-        close_price = Format(Cells(LastRow, 6).Value, "Currency")
+        close_price = ws.Cells(LastRow, 6).Value
+        
+        'Create headers for ticker_symbol, yearly change, percent change and total volume.
+        ws.Range("I1").Value = "ticker_symbol"
+        ws.Range("J1").Value = "yearly_change"
+        ws.Range("K1").Value = "pct_change"
+        ws.Range("L1").Value = "total_volume"
                 
-        'Create a variable for total_volume
-        Dim total_volume As Long
-
-        'Set initial value of total_volume
-        total_volume = 0
-
         'Create a for loop for every row of stock data
         For i = 2 To LastRow
-               
+        
+            'Create a variable for total_volume
+            'Dim total_volume As Long
+
+            'Set initial value of total_volume
+            'total_volume = 0
+                         
             'Add the value of total_volume in each row in increments
-            'total_volume = total_volume + Cells(i, 7).Value     
+            'total_volume = total_volume + Cells(i, 7).Value
      
         'End for loop for rows
         Next i
@@ -55,11 +61,11 @@ Sub find_each_stock_symbol()
         'MsgBox ("Total stock volume is " & total_volume & ".")
         
         'Create a message box displaying row count
-        MsgBox ("There are " & LastRow & " rows for year " & Year & ", and the opening price is " & open_price & ", and the closing price is " & close_price & ".")
+        'MsgBox ("There are " & LastRow & " rows for year " & Year & ", and the opening price is " & Format(open_price, "Currency") & ", and the closing price is " & Format(close_price, "Currency") & ".")
 
     'End for loop for worksheets
     Next ws
-
+   
 End Sub
 
 
