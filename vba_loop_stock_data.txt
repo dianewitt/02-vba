@@ -21,13 +21,13 @@ Sub test()
 For Each ws In Worksheets
 
     'Create headers
-    ws.Range("J1").Value = "Ticker Symbol"
-    ws.Range("K1").Value = "Yearly Change"
-    ws.Range("L1").Value = "Percent Change"
-    ws.Range("M1").Value = "Total Volume"
-    ws.Range("O1").Value = "Greatest % Increase"
-    ws.Range("O2").Value = "Greatest % Decrease"
-    ws.Range("O3").Value = "Greatest Total Volume"
+    ws.range("J1").Value = "Ticker Symbol"
+    ws.range("K1").Value = "Yearly Change"
+    ws.range("L1").Value = "Percent Change"
+    ws.range("M1").Value = "Total Volume"
+    ws.range("O1").Value = "Greatest % Increase"
+    ws.range("O2").Value = "Greatest % Decrease"
+    ws.range("O3").Value = "Greatest Total Volume"
        
     'Count the non-empty rows and columns
     'Ref website: Automate Excel here https://www.automateexcel.com/vba/find-last-row-column-cell/
@@ -42,6 +42,14 @@ For Each ws In Worksheets
     Dim open_price As Double
     Dim close_price As Double
     Dim new_ticker_row As Long
+    Dim total_volume As Long
+    Dim yearly_change As Double
+    Dim percent_change As Double
+    Dim positive_change As Boolean
+    Dim negative_change As Boolean
+    Dim greatest_increase As Boolean
+    Dim greatest_decrease As Boolean
+    Dim greatest_volume As Boolean
     
     'Set initial value of variables
     new_ticker_row = 1
@@ -53,35 +61,44 @@ For Each ws In Worksheets
         If ws.Cells(i, 1).Value <> ws.Cells(i + 1, 1).Value Then
         
         new_ticker_row = new_ticker_row + 1
-        
         ticker_symbol = ws.Cells(i, 1).Value
-        
         ws.Cells(new_ticker_row, 10).Value = ticker_symbol
         
-        'Else statement
-        Else
+        ElseIf ticker_symbol = ticker_symbol Then
         
+        startRange =
+            
+        RowRange = Format(ws.UsedRange.Rows.Count, "#,##0.00")
+                     
+        total_volume = ws.Sum(RowRange).Value
+        ws.Cells(, 13).Value = Format(total_volume, "#,##0")
+        
+        'open_price = ws.Cells(i, 2).Value
+        'close_price = ws.Cells(new_ticker_row, 6).Value
+        
+        'yearly_change = close_price - open_price
+        'ws.Cells(new_ticker_row, 11).Value = Format(yearly_change_volume, "$#,##0.00")
+        
+        'percent_change = yearly_price / open_price
+        'ws.Cells(i, 12).Value = Format(percent_change, "Percent")
+                
+         Else
+         
         'Close if statement
         End If
     
     'Next row
     Next i
+    
+    'Find the highest value in column L
+    'greatest_increase =
+    
+    'Find the lowest value in column L
+    'greatest decrease =
         
-    'temp msgbox for worksheet name test
-    'MsgBox ("Worksheet named " & year & " has " & last_row & " rows, and " & last_column & " columns.")
-    
+    'Autofit column widths
+    ws.Columns("A:P").AutoFit
 Next ws
-
- 'Create calculated variables
-  
-    'Dim yearly_change As Double
-    'Dim percent_change As Double
-    'Dim total_volume As Long
-    'Dim positive_change As Boolean
-    'Dim negative_change As Boolean
-    'Dim greatest_increase As Boolean
-    'Dim greatest_decrease As Boolean
-    'Dim greatest_volume As Boolean
-    
-
+ 
 End Sub
+
