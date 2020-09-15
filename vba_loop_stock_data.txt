@@ -17,49 +17,10 @@ Sub test()
 
 ' ************
 
-'My enhancements:
-' Parse the data column into: year, month, day and create a new column with the date format dd/mm/yyyy
-' Format stock prices as currency
-' Format volume as standard (or other with comma separators
-' Create a summary sheet and copy summary data for each stock symbol with yearly change and total volume
-
-' ************
-
 'Create a for loop for all worksheets
 For Each ws In Worksheets
 
-    'Create variables
-    Dim year As String
-    Dim ticker_symbol As String
-    Dim open_price As Double
-    Dim close_price As Double
-    Dim daily_volume As Long
-       
-    'Create calculated variables
-    
-    Dim daily_change As Double
-    Dim yearly_change As Double
-    Dim percent_change As Double
-    Dim total_volume As Long
-    Dim positive_change As Boolean
-    Dim negative_change As Boolean
-    Dim greatest_increase As Boolean
-    Dim greatest_decrease As Boolean
-    Dim greatest_volume As Boolean
-        
-    'Count the non-empty rows and columns
-    'Ref website: Automate Excel here https://www.automateexcel.com/vba/find-last-row-column-cell/
-    'Format the row and column count with numbers and comma separators
-    'Ref website: Tech On The Next here https://www.techonthenet.com/excel/formulas/format_number.php
-            
-    last_row = Format(ws.UsedRange.Rows.Count, "#,##0")
-    last_column = Format(ws.UsedRange.Columns.Count, "#,##0")
-    
-    'Set the initial value of each variable
-    year = ws.Name
-      
     'Create headers
-    ws.Range("H1").Value = "Daily Change"
     ws.Range("J1").Value = "Ticker Symbol"
     ws.Range("K1").Value = "Yearly Change"
     ws.Range("L1").Value = "Percent Change"
@@ -67,23 +28,41 @@ For Each ws In Worksheets
     ws.Range("O1").Value = "Greatest % Increase"
     ws.Range("O2").Value = "Greatest % Decrease"
     ws.Range("O3").Value = "Greatest Total Volume"
+       
+    'Count the non-empty rows and columns
+    'Ref website: Automate Excel here https://www.automateexcel.com/vba/find-last-row-column-cell/
+    'Format the row and column count with numbers and comma separators
+    'Ref website: Tech On The Next here https://www.techonthenet.com/excel/formulas/format_number.php
     
+    last_row = Format(ws.UsedRange.Rows.Count, "#,##0")
+    last_column = Format(ws.UsedRange.Columns.Count, "#,##0")
+      
+    'Create variables
+    Dim ticker_symbol As String
+    Dim open_price As Double
+    Dim close_price As Double
+    Dim new_ticker_row As Long
+    
+    'Set initial value of variables
+    new_ticker_row = 1
     
     'Create loop of worksheet through the non-empty rows
     'Ref website: Stack Overflow here https://stackoverflow.com/questions/62471422/vba-loop-how-to-get-ticker-symbols-into-ticker-column
     For i = 2 To last_row
-       
-        'Calculate the daily change in price and add to column H
-        ws.Cells(i, 8).Value = Format(ws.Cells(i, 6).Value - ws.Cells(i, 3).Value, "Currency")
-                             
-        'Conditional statement, if the next row does not equal the previous row, then set the ticker symbol
-        'If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
-                     
+    
+        If ws.Cells(i, 1).Value <> ws.Cells(i + 1, 1).Value Then
+        
+        new_ticker_row = new_ticker_row + 1
+        
+        ticker_symbol = ws.Cells(i, 1).Value
+        
+        ws.Cells(new_ticker_row, 10).Value = ticker_symbol
+        
         'Else statement
-        'Else
+        Else
         
         'Close if statement
-        'End If
+        End If
     
     'Next row
     Next i
@@ -93,5 +72,16 @@ For Each ws In Worksheets
     
 Next ws
 
-End Sub
+ 'Create calculated variables
+  
+    'Dim yearly_change As Double
+    'Dim percent_change As Double
+    'Dim total_volume As Long
+    'Dim positive_change As Boolean
+    'Dim negative_change As Boolean
+    'Dim greatest_increase As Boolean
+    'Dim greatest_decrease As Boolean
+    'Dim greatest_volume As Boolean
+    
 
+End Sub
