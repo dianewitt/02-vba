@@ -1,72 +1,97 @@
-Sub find_each_stock_symbol()
+Sub test()
 
-    'Insert a new worksheet to summarize the stock data by ticker symbol
-    'Sheets.Add.Name = "Summary_Stock_Data"
+'*************
 
-    'Move Summary_Stock_Data before Sheet(1)
-    'Worksheets("Summary_Stock_Data").Move Before:=Sheets(1)
+' Create a script to loop through all the stocks for one year and output:
+' Ticker symbol
+' Yearly change
+' Percent change
+' Total volume
+' Conditionally format highlighting:
+' Positive change in green
+' Negative change in red
+' Challenge:
+' Return the stock with the greatest percentage increase
+' Return the stock with the greatest percentage decrease
+' Return the stock with the greatest total volume
 
-    'Set location of Summary_Stock_Data
-    'Set summary_data = Worksheets("Summary_Stock_Data")
-        
-    'Create a for loop to look at stock data
-    For Each ws In Worksheets
+' ************
+
+'My enhancements:
+' Parse the data column into: year, month, day and create a new column with the date format dd/mm/yyyy
+' Format stock prices as currency
+' Format volume as standard (or other with comma separators
+' Create a summary sheet and copy summary data for each stock symbol with yearly change and total volume
+
+' ************
+
+'Create a for loop for all worksheets
+For Each ws In Worksheets
+
+    'Create variables
+    Dim year As String
+    Dim ticker_symbol As String
+    Dim open_price As Double
+    Dim close_price As Double
+    Dim daily_volume As Long
+       
+    'Create calculated variables
     
-        'Create a variable for name of worksheet, the year
-        Dim Year As String
+    Dim daily_change As Double
+    Dim yearly_change As Double
+    Dim percent_change As Double
+    Dim total_volume As Long
+    Dim positive_change As Boolean
+    Dim negative_change As Boolean
+    Dim greatest_increase As Boolean
+    Dim greatest_decrease As Boolean
+    Dim greatest_volume As Boolean
         
-        'Set value of Year
-        Year = ws.Name
-                  
-        'Create a variable for non-empty rows, and set the value as count
-        LastRow = Format(ws.UsedRange.Rows.Count, "#,##0")
-
-        'Create a variable for non-empty columns, and set the value as count
-        LastColumn = Format(ws.UsedRange.Columns.Count, "#,##0")
+    'Count the non-empty rows and columns
+    'Ref website: Automate Excel here https://www.automateexcel.com/vba/find-last-row-column-cell/
+    'Format the row and column count with numbers and comma separators
+    'Ref website: Tech On The Next here https://www.techonthenet.com/excel/formulas/format_number.php
+            
+    last_row = Format(ws.UsedRange.Rows.Count, "#,##0")
+    last_column = Format(ws.UsedRange.Columns.Count, "#,##0")
     
-        'Create a variable for opening price **of each worksheet**
-        Dim open_price As Long
+    'Set the initial value of each variable
+    year = ws.Name
+      
+    'Create headers
+    ws.Range("H1").Value = "Daily Change"
+    ws.Range("J1").Value = "Ticker Symbol"
+    ws.Range("K1").Value = "Yearly Change"
+    ws.Range("L1").Value = "Percent Change"
+    ws.Range("M1").Value = "Total Volume"
+    ws.Range("O1").Value = "Greatest % Increase"
+    ws.Range("O2").Value = "Greatest % Decrease"
+    ws.Range("O3").Value = "Greatest Total Volume"
+    
+    
+    'Create loop of worksheet through the non-empty rows
+    'Ref website: Stack Overflow here https://stackoverflow.com/questions/62471422/vba-loop-how-to-get-ticker-symbols-into-ticker-column
+    For i = 2 To last_row
+       
+        'Calculate the daily change in price and add to column H
+        ws.Cells(i, 8).Value = Format(ws.Cells(i, 6).Value - ws.Cells(i, 3).Value, "Currency")
+                             
+        'Conditional statement, if the next row does not equal the previous row, then set the ticker symbol
+        'If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
+                     
+        'Else statement
+        'Else
         
-        'Set the value of the opening price (in the worksheet, ignore stocks for now).
-        open_price = ws.Cells(2, 3).Value
+        'Close if statement
+        'End If
+    
+    'Next row
+    Next i
+        
+    'temp msgbox for worksheet name test
+    'MsgBox ("Worksheet named " & year & " has " & last_row & " rows, and " & last_column & " columns.")
+    
+Next ws
 
-        'Set the value of the closing price **of each worksheet**
-        Dim close_price As Long
-        
-        'Create a variable for the closing price (in the worksheet, ignore stocks for now).
-        close_price = ws.Cells(LastRow, 6).Value
-        
-        'Create headers for ticker_symbol, yearly change, percent change and total volume.
-        ws.Range("I1").Value = "ticker_symbol"
-        ws.Range("J1").Value = "yearly_change"
-        ws.Range("K1").Value = "pct_change"
-        ws.Range("L1").Value = "total_volume"
-                
-        'Create a for loop for every row of stock data
-        For i = 2 To LastRow
-        
-            'Create a variable for total_volume
-            'Dim total_volume As Long
-
-            'Set initial value of total_volume
-            'total_volume = 0
-                         
-            'Add the value of total_volume in each row in increments
-            'total_volume = total_volume + Cells(i, 7).Value
-     
-        'End for loop for rows
-        Next i
-
-        'Create a message box displaying total_volume
-        'MsgBox ("Total stock volume is " & total_volume & ".")
-        
-        'Create a message box displaying row count
-        'MsgBox ("There are " & LastRow & " rows for year " & Year & ", and the opening price is " & Format(open_price, "Currency") & ", and the closing price is " & Format(close_price, "Currency") & ".")
-
-    'End for loop for worksheets
-    Next ws
-   
 End Sub
 
-
-    
