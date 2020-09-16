@@ -21,13 +21,15 @@ Sub test()
 For Each ws In Worksheets
 
     'Create headers
-    ws.range("J1").Value = "Ticker Symbol"
-    ws.range("K1").Value = "Yearly Change"
-    ws.range("L1").Value = "Percent Change"
-    ws.range("M1").Value = "Total Volume"
-    ws.range("O1").Value = "Greatest % Increase"
-    ws.range("O2").Value = "Greatest % Decrease"
-    ws.range("O3").Value = "Greatest Total Volume"
+    ws.Range("I1").Value = "Ticker Symbol"
+    ws.Range("J1").Value = "Opening Price"
+    ws.Range("K1").Value = "Closing Price"
+    ws.Range("L1").Value = "Yearly Change"
+    ws.Range("M1").Value = "Percent Change"
+    ws.Range("N1").Value = "Total Volume"
+    ws.Range("P1").Value = "Greatest % Increase"
+    ws.Range("P2").Value = "Greatest % Decrease"
+    ws.Range("P3").Value = "Greatest Total Volume"
        
     'Count the non-empty rows and columns
     'Ref website: Automate Excel here https://www.automateexcel.com/vba/find-last-row-column-cell/
@@ -39,8 +41,8 @@ For Each ws In Worksheets
       
     'Create variables
     Dim ticker_symbol As String
-    Dim open_price As Double
-    Dim close_price As Double
+    Dim open_price_start As Double
+    Dim close_price_end As Double
     Dim new_ticker_row As Long
     Dim total_volume As Long
     Dim yearly_change As Double
@@ -54,38 +56,51 @@ For Each ws In Worksheets
     'Set initial value of variables
     new_ticker_row = 1
     
+    Dim volRange As Range
+    Dim tickerRange As Range
+    Dim varTicker As Variant
+        
+    'Set volRange = ws.range("G2:G")
+    'Set tickerRange = ws.range("A2:A")
+    'varTicker = "=False"
+        
+    
     'Create loop of worksheet through the non-empty rows
     'Ref website: Stack Overflow here https://stackoverflow.com/questions/62471422/vba-loop-how-to-get-ticker-symbols-into-ticker-column
     For i = 2 To last_row
-    
+            
         If ws.Cells(i, 1).Value <> ws.Cells(i + 1, 1).Value Then
-        
+                
+        'WORKS!
         new_ticker_row = new_ticker_row + 1
         ticker_symbol = ws.Cells(i, 1).Value
-        ws.Cells(new_ticker_row, 10).Value = ticker_symbol
+        ws.Cells(new_ticker_row, 9).Value = ticker_symbol
         
-        ElseIf ticker_symbol = ticker_symbol Then
+        'DOES NOT WORK?
+        open_price_start = 1
+        ws.Cells(new_ticker_row, 10).Value = Format(open_price_start, "Currency")
         
-        startRange =
-            
-        RowRange = Format(ws.UsedRange.Rows.Count, "#,##0.00")
-                     
-        total_volume = ws.Sum(RowRange).Value
-        ws.Cells(, 13).Value = Format(total_volume, "#,##0")
+        'WORKS!
+        close_price_end = ws.Cells(i, 6).Value
+        ws.Cells(new_ticker_row, 11).Value = Format(close_price_end, "Currency")
         
-        'open_price = ws.Cells(i, 2).Value
-        'close_price = ws.Cells(new_ticker_row, 6).Value
+        'WORKS!
+        yearly_change = close_price_end - open_price_start
+        ws.Cells(new_ticker_row, 12).Value = Format(yearly_change, "Currency")
         
-        'yearly_change = close_price - open_price
-        'ws.Cells(new_ticker_row, 11).Value = Format(yearly_change_volume, "$#,##0.00")
+        'WORKS!
+        percent_change = yearly_change / open_price_start
+        ws.Cells(new_ticker_row, 13).Value = Format(percent_change, "Percent")
         
-        'percent_change = yearly_price / open_price
-        'ws.Cells(i, 12).Value = Format(percent_change, "Percent")
-                
-         Else
-         
-        'Close if statement
+        'DOES NOT WORK?
+        total_volume = 1000
+        ws.Cells(new_ticker_row, 14).Value = Format(total_volume, "#,##0")
+        
+        Else
+
         End If
+        
+        'Next j
     
     'Next row
     Next i
