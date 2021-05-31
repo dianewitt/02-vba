@@ -9,6 +9,7 @@ Stock Market Analysis
 
     * VBA code
         ```
+        Sub stock_data()
         
         'Create a for loop for all worksheets
         For Each ws In Worksheets
