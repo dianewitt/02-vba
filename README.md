@@ -3,7 +3,7 @@
 Stock Market Analysis
 * Import and Analyze real stock market data
 * Import stock market data from csv file
-    ![vba](vba1.jpg)
+    ![vba](/Images/vba1.jpg)
 * Loop through all the stocks for a year, calculate and output:
     * Ticker symbol
     * Price change from opening price at start of the year, to closing price at end of year
@@ -120,4 +120,4 @@ Stock Market Analysis
     ```
 * Output data
     
-    ![vba2](vba2.jpg)
+    ![vba2](/Images/vba2.jpg)
