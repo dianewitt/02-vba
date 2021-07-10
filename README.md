@@ -12,7 +12,7 @@ Stock Market Analysis
 * Add conditional formatting to highlight positive changes in green, and negative changes in red
 * Write the script to ensure the script acts the same on each sheet
 
-* VBA code
+* VBA script
     ```
     Sub stock_data()
     
